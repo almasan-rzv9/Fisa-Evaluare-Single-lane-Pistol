@@ -4,128 +4,92 @@
 <meta charset="utf-8">
 <title>Pistol Skills</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
 <style>
-  /* --- Tipografie & preseturi --- */
-  @import url("https://fonts.googleapis.com/css2?family=Inter:wght@600;800&family=Source+Serif+4:ital@0;1&display=swap");
-  :root{--ink:#111;--muted:#555;--grid:#dcdcdc;--shade:#f7f7f7;--accent:#0f62fe}
+  :root{--ink:#111;--muted:#555;--grid:#dcdcdc;--shade:#f7f7f7}
   html,body{background:#fff;color:var(--ink);margin:0}
-  body{font:16px/1.5 "Source Serif 4", Georgia, serif}
-  .wrap{max-width:900px;margin:28px auto 64px;padding:0 14px}
-  h1{font:800 38px/1.1 Inter, system-ui, sans-serif; letter-spacing:.2px; text-align:center; margin:0}
+  body{font:16px/1.45 "Times New Roman", Times, serif}
+  .wrap{max-width:870px;margin:28px auto 60px;padding:0 12px}
+  h1{margin:0 0 12px;text-align:center;font-size:38px;letter-spacing:.5px;font-weight:700}
 
-  /* Brand bar + subtitlu */
-  .brand{display:flex;justify-content:center;align-items:center;gap:12px;margin:6px 0 18px}
-  .brand:after{content:"";display:block;height:3px;background:var(--accent);width:120px;border-radius:2px}
-  .subtitle{color:#666;font:600 14px Inter, system-ui, sans-serif; letter-spacing:.4px; text-transform:uppercase}
-
-  /* Meta */
   .meta{margin:10px 0 8px}
   .meta-row{display:flex;align-items:center;gap:18px;margin:8px 0}
-  .lbl{font:600 13px Inter, system-ui, sans-serif;min-width:170px;color:#444}
+  .lbl{font-style:italic;min-width:170px}
   .line-input{
-    flex:1;border:0;border-bottom:1px solid #999;padding:6px 6px;background:transparent;
-    font:16px/1.2 "Source Serif 4", Georgia, serif;outline:none;
+    flex:1;border:0;border-bottom:1px solid #999;padding:6px 6px;
+    font:16px/1.2 "Times New Roman", Times, serif;outline:none;background:transparent;
   }
 
-  /* Toolbar */
-  .toolbar{
-    position:sticky; top:0; z-index:3; background:#fff; padding:8px 0 10px; 
-    display:flex; justify-content:flex-end; gap:8px; border-bottom:1px solid #eee;
-  }
-  .btn{
-    font:600 14px Inter, system-ui, sans-serif; border:1px solid #999; background:#efefef;
-    padding:8px 12px; border-radius:8px; cursor:pointer
-  }
+  .note{margin:8px 0 12px}
+  .rule{height:1px;background:#a8a8a8;margin:16px 0 10px}
+
+  .toolbar{display:flex;justify-content:flex-end;gap:8px;margin:6px 0 8px}
+  .btn{font:15px/1 "Times New Roman", Times, serif;border:1px solid #999;background:#efefef;padding:6px 10px;cursor:pointer}
   .btn:active{transform:translateY(1px)}
 
-  /* Panouri info */
+  /* panouri (Core, Harta, Ținte) */
   details.core, details.map, details.targets{
-    margin:8px 0 12px; border:1px solid #cfcfcf; background:#fbfbfb; border-radius:8px;
+    margin:8px 0 12px; border:1px solid #cfcfcf; background:#fbfbfb; border-radius:6px;
   }
   details.core[open], details.map[open], details.targets[open]{background:#f6f6f6}
   details.core > summary, details.map > summary, details.targets > summary{
-    list-style:none; cursor:pointer; padding:10px 12px; display:flex; align-items:center; gap:8px;
-    font:700 15px Inter, system-ui, sans-serif;
+    list-style:none; cursor:pointer; padding:8px 10px; display:flex; align-items:center; gap:8px;
+    font-weight:700;
   }
   details.core > summary::-webkit-details-marker,
   details.map > summary::-webkit-details-marker,
   details.targets > summary::-webkit-details-marker{display:none}
   .chev{display:inline-block; transition:transform .2s}
   details.core[open] .chev, details.map[open] .chev, details.targets[open] .chev{transform:rotate(90deg)}
-  .core-content, .map-content, .targets-content{padding:0 16px 12px 28px}
+  .core-content, .map-content, .targets-content{padding:0 14px 12px 26px}
   .core-content ol{margin:0; padding-left:18px}
   .core-content li, .map-content li{margin:6px 0}
   .map-content p{margin:6px 0 10px}
   .map-content .sub{margin-left:12px;margin-top:4px}
-  .map-content .muted, .targets .muted{color:#666;font:600 13px Inter, system-ui, sans-serif}
+  .map-content .muted{color:var(--muted);font-size:14px}
   .targets-list{margin:6px 0 0; padding-left:18px}
   .targets-list li{margin:6px 0}
   .targets a{text-decoration:none}
 
-  /* Tabel */
   table{width:100%;border-collapse:collapse}
-  thead th{
-    font-style:italic;text-align:left;padding:8px 10px;border-bottom:2px solid #000;white-space:nowrap
-  }
-  tbody td{padding:8px 10px;border-bottom:1px solid var(--grid);vertical-align:top}
+  thead th{font-style:italic;text-align:left;padding:6px 8px;border-bottom:2px solid #000;white-space:nowrap}
+  tbody td{padding:6px 8px;border-bottom:1px solid var(--grid);vertical-align:top}
   tbody tr:nth-child(even) td{background:var(--shade)}
-  td,th{font-variant-numeric: tabular-nums} /* aliniere numere */
   .c-idx{width:28px;text-align:right}
   .c-skill{width:260px}
-  .c-drill{width:320px}
-  .c-dist{width:80px;white-space:nowrap}
+  .c-drill{width:300px}
+  .c-dist{width:85px;white-space:nowrap}
   .c-lov{width:70px;text-align:center}
-  .c-pts,.c-time,.c-hf{width:84px;text-align:center}
+  .c-pts,.c-time,.c-hf{width:90px;text-align:center}
 
   .b{font-weight:700}
   .i{font-style:italic}
-  .lov{display:inline-block;min-width:36px;padding:0 6px;background:#e9e9e9;border-radius:4px}
+  .lov{display:inline-block;min-width:36px;padding:0 6px;background:#e9e9e9;border-radius:3px}
 
   input[type="number"], input[type="text"], input[type="date"]{
-    width:88px;padding:6px 8px;border:1px solid #bbb;border-radius:6px;background:#fff;
-    font:16px "Source Serif 4", Georgia, serif;
+    width:88px;padding:4px 6px;border:1px solid #888;border-radius:4px;
+    font:16px "Times New Roman", Times, serif;background:#fff;
   }
-  input.time:invalid, input.pts:invalid{outline:2px solid #ffb3b3}
-  .hf-box{
-    min-height:28px;padding:6px 10px;border-radius:8px;background:#eef3ff;border:0;
-    font:600 14px Inter, system-ui, sans-serif; display:inline-block; min-width:56px
-  }
+  .hf-box{min-height:28px;padding:4px 6px;border:1px solid #bbb;border-radius:4px;background:#fff}
 
-  .note{margin:8px 0 12px}
-  .rule{height:1px;background:#a8a8a8;margin:16px 0 10px}
   .tot{margin-top:10px}
   .foot{margin-top:6px;color:var(--muted)}
 
-  /* Semnături */
-  .signs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:18px}
-  .sig .label{font:600 12px Inter, system-ui, sans-serif;color:#555;margin-bottom:6px}
-  .sig .line{border-bottom:1px solid #999;height:24px}
-  
-  /* Print */
   @page{size:A4;margin:16mm 14mm}
   @media print{
     .wrap{margin:0 auto;padding:0}
     .toolbar, details.core, details.map, details.targets{display:none}
     .line-input{border-bottom:1px solid #000}
     input[type="number"], input[type="text"], input[type="date"]{border:1px solid #999}
-    thead{display:table-header-group}  /* header repetat pe pagini */
-    tfoot{display:table-footer-group}
-    .sig .line{border-color:#000}
   }
-
-  @media (max-width:560px){
+  @media (max-width:520px){
     .wrap{padding:0 10px}
-    .c-drill{width:auto}
     input[type="number"], input[type="text"]{width:68px}
-    .signs{grid-template-columns:1fr}
   }
 </style>
 </head>
 <body>
   <div class="wrap">
     <h1>Pistol Skills</h1>
-    <div class="brand"><div class="subtitle">single lane assessment sheet</div></div>
 
     <div class="meta">
       <div class="meta-row">
@@ -143,7 +107,7 @@
     </div>
 
     <div class="note">
-      Cold • Iron Sights • A4 (piept) = <b>1p</b> • A6 (cap) = <b>2p</b> • Pauză între runde <b>2′</b> • Distanță laser • Holster
+      Cold * Iron Sights * A4 (piept) = <b>1p</b> * A6 (cap) = <b>2p</b> * Pauza intre runde <b>2'</b> * Distanta laser. * Holster
     </div>
 
     <!-- Core skills -->
@@ -259,7 +223,7 @@
     <div class="rule"></div>
 
     <div class="toolbar">
-      <button class="btn" id="btnExport">Exportă PDF</button>
+      <button class="btn" onclick="window.print()">Exportă PDF</button>
       <button class="btn" id="clear">Curăță fișa</button>
     </div>
 
@@ -278,147 +242,122 @@
       </thead>
       <tbody>
         <!-- rânduri editabile; HF se calculează automat -->
-        <tr><td class="c-idx">1.</td><td>Safe gun handling & consistency</td><td><span class="b">Mini Super Test</span> – string 1</td><td class="b">15 m</td><td><span class="lov">/3</span></td><td><input class="pts" inputmode="numeric" type="number" min="0" step="1" placeholder="ex. 3"></td><td><input class="time" inputmode="decimal" type="number" min="0.01" step="0.01" placeholder="ex. 7.50" required></td><td><div class="hf-box"></div></td></tr>
-        <tr><td class="c-idx">2.</td><td>Safe gun handling & consistency</td><td><span class="b">Mini Super Test</span> – string 2</td><td class="b">10 m</td><td><span class="lov">/3</span></td><td><input class="pts" type="number" min="0" step="1" placeholder="ex. 3"></td><td><input class="time" type="number" min="0.01" step="0.01" placeholder="ex. 5.00" required></td><td><div class="hf-box"></div></td></tr>
-        <tr><td class="c-idx">3.</td><td>Safe gun handling & consistency</td><td><span class="b">Mini Super Test</span> – string 3</td><td class="b">5 m</td><td><span class="lov">/3</span></td><td><input class="pts" type="number" min="0" step="1" placeholder="ex. 3"></td><td><input class="time" type="number" min="0.01" step="0.01" placeholder="ex. 2.50" required></td><td><div class="hf-box"></div></td></tr>
-        <tr><td class="c-idx">4.</td><td>Draw to first shot</td><td class="b">Draw-to-1</td><td>7 m</td><td><span class="lov">/1</span></td><td><input class="pts" type="number" min="0" step="1"></td><td><input class="time" type="number" min="0.01" step="0.01" placeholder="ex. 1.30" required></td><td><div class="hf-box"></div></td></tr>
-        <tr><td class="c-idx">5.</td><td>Sight acquisition & cadence</td><td class="b">Doubles</td><td>7 m</td><td><span class="lov">/4</span></td><td><input class="pts" type="number" min="0" step="1"></td><td><input class="time" type="number" min="0.01" step="0.01" placeholder="ex. 3.20" required></td><td><div class="hf-box"></div></td></tr>
-        <tr><td class="c-idx">6.</td><td>Trigger control / precision</td><td class="b">Head shot</td><td>7 m</td><td><span class="lov">/4</span></td><td><input class="pts" type="number" min="0" step="1"></td><td><input class="time" type="number" min="0.01" step="0.01" required></td><td><div class="hf-box"></div></td></tr>
-        <tr><td class="c-idx">7.</td><td>Grip & recoil (splits)</td><td class="b">Bill Drill</td><td>7 m</td><td><span class="lov">/6</span></td><td><input class="pts" type="number" min="0" step="1"></td><td><input class="time" type="number" min="0.01" step="0.01" required></td><td><div class="hf-box"></div></td></tr>
-        <tr><td class="c-idx">8.</td><td>Target transitions</td><td class="b">3-Target Sweep</td><td>7 m</td><td><span class="lov">/6</span></td><td><input class="pts" type="number" min="0" step="1"></td><td><input class="time" type="number" min="0.01" step="0.01" required></td><td><div class="hf-box"></div></td></tr>
-        <tr><td class="c-idx">9.</td><td>Emergency reloads</td><td class="b">1R1</td><td>7 m</td><td><span class="lov">/2</span></td><td><input class="pts" type="number" min="0" step="1"></td><td><input class="time" type="number" min="0.01" step="0.01" required></td><td><div class="hf-box"></div></td></tr>
-        <tr><td class="c-idx">10.</td><td>SH control</td><td class="b">SHO</td><td>5 m</td><td><span class="lov">/3</span></td><td><input class="pts" type="number" min="0" step="1"></td><td><input class="time" type="number" min="0.01" step="0.01" required></td><td><div class="hf-box"></div></td></tr>
-        <tr><td class="c-idx">11.</td><td>WH control</td><td class="b">WHO</td><td>5 m</td><td><span class="lov">/3</span></td><td><input class="pts" type="number" min="0" step="1"></td><td><input class="time" type="number" min="0.01" step="0.01" required></td><td><div class="hf-box"></div></td></tr>
-        <tr><td class="c-idx">12.</td><td>Distance change-ups</td><td class="b">Size Change-Up (pe loc)</td><td>7–10 m</td><td><span class="lov">/6</span></td><td><input class="pts" type="number" min="0" step="1"></td><td><input class="time" type="number" min="0.01" step="0.01" required></td><td><div class="hf-box"></div></td></tr>
-        <tr><td class="c-idx">13.</td><td>Throttle control</td><td class="b">FAST (2 cap → rl → 4 piept)</td><td>7 m</td><td><span class="lov">cap: /2<br>piept: /4</span></td><td><input class="pts" type="number" min="0" step="1"></td><td><input class="time" type="number" min="0.01" step="0.01" required></td><td><div class="hf-box"></div></td></tr>
+        <tr><td class="c-idx">1.</td><td>Safe gun handling & consistency</td><td><span class="b">Mini Super Test</span> – string 1</td><td class="b">15 m</td><td><span class="lov">/3</span></td><td><input inputmode="numeric" type="number" step="1" class="pts"></td><td><input inputmode="decimal" type="number" step="0.01" class="time"></td><td><div class="hf-box"></div></td></tr>
+        <tr><td class="c-idx">2.</td><td>Safe gun handling & consistency</td><td><span class="b">Mini Super Test</span> – string 2</td><td class="b">10 m</td><td><span class="lov">/3</span></td><td><input inputmode="numeric" type="number" step="1" class="pts"></td><td><input inputmode="decimal" type="number" step="0.01" class="time"></td><td><div class="hf-box"></div></td></tr>
+        <tr><td class="c-idx">3.</td><td>Safe gun handling & consistency</td><td><span class="b">Mini Super Test</span> – string 3</td><td class="b">5 m</td><td><span class="lov">/3</span></td><td><input inputmode="numeric" type="number" step="1" class="pts"></td><td><input inputmode="decimal" type="number" step="0.01" class="time"></td><td><div class="hf-box"></div></td></tr>
+        <tr><td class="c-idx">4.</td><td>Draw to first shot</td><td class="b">Draw-to-1</td><td>7 m</td><td><span class="lov">/1</span></td><td><input inputmode="numeric" type="number" step="1" class="pts"></td><td><input inputmode="decimal" type="number" step="0.01" class="time"></td><td><div class="hf-box"></div></td></tr>
+        <tr><td class="c-idx">5.</td><td>Sight acquisition & cadence</td><td class="b">Doubles</td><td>7 m</td><td><span class="lov">/4</span></td><td><input inputmode="numeric" type="number" step="1" class="pts"></td><td><input inputmode="decimal" type="number" step="0.01" class="time"></td><td><div class="hf-box"></div></td></tr>
+        <tr><td class="c-idx">6.</td><td>Trigger control / precision</td><td class="b">Head shot</td><td>7 m</td><td><span class="lov">/4</span></td><td><input inputmode="numeric" type="number" step="1" class="pts"></td><td><input inputmode="decimal" type="number" step="0.01" class="time"></td><td><div class="hf-box"></div></td></tr>
+        <tr><td class="c-idx">7.</td><td>Grip & recoil (splits)</td><td class="b">Bill Drill</td><td>7 m</td><td><span class="lov">/6</span></td><td><input inputmode="numeric" type="number" step="1" class="pts"></td><td><input inputmode="decimal" type="number" step="0.01" class="time"></td><td><div class="hf-box"></div></td></tr>
+        <tr><td class="c-idx">8.</td><td>Target transitions</td><td class="b">3-Target Sweep</td><td>7 m</td><td><span class="lov">/6</span></td><td><input inputmode="numeric" type="number" step="1" class="pts"></td><td><input inputmode="decimal" type="number" step="0.01" class="time"></td><td><div class="hf-box"></div></td></tr>
+        <tr><td class="c-idx">9.</td><td>Emergency reloads</td><td class="b">1R1</td><td>7 m</td><td><span class="lov">/2</span></td><td><input inputmode="numeric" type="number" step="1" class="pts"></td><td><input inputmode="decimal" type="number" step="0.01" class="time"></td><td><div class="hf-box"></div></td></tr>
+        <tr><td class="c-idx">10.</td><td>SH control</td><td class="b">SHO</td><td>5 m</td><td><span class="lov">/3</span></td><td><input inputmode="numeric" type="number" step="1" class="pts"></td><td><input inputmode="decimal" type="number" step="0.01" class="time"></td><td><div class="hf-box"></div></td></tr>
+        <tr><td class="c-idx">11.</td><td>WH control</td><td class="b">WHO</td><td>5 m</td><td><span class="lov">/3</span></td><td><input inputmode="numeric" type="number" step="1" class="pts"></td><td><input inputmode="decimal" type="number" step="0.01" class="time"></td><td><div class="hf-box"></div></td></tr>
+        <tr><td class="c-idx">12.</td><td>Distance change-ups</td><td class="b">Size Change-Up (pe loc)</td><td>7–10 m</td><td><span class="lov">/6</span></td><td><input inputmode="numeric" type="number" step="1" class="pts"></td><td><input inputmode="decimal" type="number" step="0.01" class="time"></td><td><div class="hf-box"></div></td></tr>
+        <tr><td class="c-idx">13.</td><td>Throttle control</td><td class="b">FAST (2 cap → rl → 4 piept)</td><td>7 m</td><td><span class="lov">cap: /2<br>piept: /4</span></td><td><input inputmode="numeric" type="number" step="1" class="pts"></td><td><input inputmode="decimal" type="number" step="0.01" class="time"></td><td><div class="hf-box"></div></td></tr>
       </tbody>
-      <tfoot>
-        <tr><td colspan="8">
-          <div class="tot"><b>Total muniție</b> 50</div>
-          <div class="foot">Completezi <b>Puncte</b> și <b>Timp</b>. <b>HF</b> se calculează automat. Apoi „Exportă PDF”.</div>
-        </td></tr>
-      </tfoot>
     </table>
 
-    <!-- Semnături -->
-    <div class="signs">
-      <div class="sig"><div class="label">Instructor</div><div class="line"></div></div>
-      <div class="sig"><div class="label">Trăgător</div><div class="line"></div></div>
-      <div class="sig"><div class="label">Locație</div><div class="line"></div></div>
-    </div>
-
+    <div class="tot"><b>Total muniție</b> 50</div>
+    <div class="foot">Completezi <b>Puncte</b> și <b>Timp</b>. <b>HF</b> se calculează automat. Apoi „Exportă PDF”.</div>
   </div>
 
-<script>
-  const STORAGE_KEY = "pistol_skills_state_v1";
+  <script>
+    const STORAGE_KEY = "fisa_eval_state_v5";
 
-  function fmt(v, d=2){ return (isFinite(v) && v!=='') ? Number(v).toFixed(d) : ''; }
+    function fmt(v, d=2){ return (isFinite(v) && v!=='') ? Number(v).toFixed(d) : ''; }
 
-  function recalcAndSave(){
-    const rowsData = [];
-    document.querySelectorAll('#sheet tbody tr').forEach(tr=>{
-      const ptsEl = tr.querySelector('.pts');
-      const timeEl = tr.querySelector('.time');
-      const hfBox = tr.querySelector('.hf-box');
-      const pts = ptsEl && ptsEl.value !== '' ? parseFloat(ptsEl.value) : null;
-      const time = timeEl && timeEl.value !== '' ? parseFloat(timeEl.value) : null;
-      const hf = (time && time>0 && pts !== null) ? (pts / time) : '';
-      hfBox.textContent = hf === '' ? '' : fmt(hf,2);
-      rowsData.push({pts: ptsEl.value || '', time: timeEl.value || ''});
+    function recalcAndSave(){
+      const rowsData = [];
+      document.querySelectorAll('#sheet tbody tr').forEach(tr=>{
+        const ptsEl = tr.querySelector('.pts');
+        const timeEl = tr.querySelector('.time');
+        const hfBox = tr.querySelector('.hf-box');
+        const pts = ptsEl && ptsEl.value !== '' ? parseFloat(ptsEl.value) : null;
+        const time = timeEl && timeEl.value !== '' ? parseFloat(timeEl.value) : null;
+        const hf = (time && time>0 && pts !== null) ? (pts / time) : '';
+        hfBox.textContent = hf === '' ? '' : fmt(hf,2);
+        rowsData.push({pts: ptsEl.value || '', time: timeEl.value || ''});
+      });
+
+      const header = {
+        date: document.getElementById('fld_date').value || '',
+        shooter: document.getElementById('fld_shooter').value || '',
+        gun: document.getElementById('fld_gun').value || ''
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({header, rows: rowsData}));
+    }
+
+    function restore(){
+      try{
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if(!raw){ document.title = 'Pistol Skills'; return; }
+        const obj = JSON.parse(raw);
+        if(obj.header){
+          document.getElementById('fld_date').value = obj.header.date || '';
+          document.getElementById('fld_shooter').value = obj.header.shooter || '';
+          document.getElementById('fld_gun').value = obj.header.gun || '';
+        }
+        if(Array.isArray(obj.rows)){
+          const rows = [...document.querySelectorAll('#sheet tbody tr')];
+          obj.rows.forEach((r,i)=>{
+            const tr = rows[i]; if(!tr) return;
+            tr.querySelector('.pts').value = r.pts || '';
+            tr.querySelector('.time').value = r.time || '';
+          });
+        }
+        document.title = 'Pistol Skills';
+      }catch(e){ console.error(e) }
+    }
+
+    // --- ȚINTE: construiește lista din folderul ./targets/ ---
+    const pathPrefix = "./targets/";
+    const targets = [
+      ["target-uspsa-a-zone-a4.pdf","USPSA A-Zone (A4) — imprimare 100%"],
+      ["target-bullseye.pdf","Bullseye clasic (score sheet)"],
+      ["drill-3-2-1-target.pdf","3-2-1 / 6-4-2 target"],
+      ["drill-cadence-bars-5m.pdf","Cadence Bars – 5 m"],
+      ["drill-cadence-bars-7m.pdf","Cadence Bars – 7 m"],
+      ["drill-dice-5m.pdf","Dice Drill – 5 m"],
+      ["drill-diminishing-dot.pdf","Diminishing Dot"],
+      ["drill-grid-square-center.pdf","Grid Square – Center"],
+      ["drill-red-dot.pdf","Red Dot zero/confirm"],
+      ["drill-risky-business-qr.pdf","„Risky Business” (QR)"]
+    ];
+    function buildTargets(){
+      const ul = document.getElementById("targets-list");
+      if(!ul) return;
+      targets.forEach(([file,label])=>{
+        const li = document.createElement("li");
+        const a = document.createElement("a");
+        a.href = pathPrefix + file;
+        a.textContent = label;
+        a.setAttribute("download", "");
+        a.target = "_blank"; a.rel = "noopener";
+        li.appendChild(a);
+        ul.appendChild(li);
+      });
+    }
+
+    // init
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('details.core, details.map, details.targets').forEach(d => d.removeAttribute('open')); // toate închise
+      restore();
+      buildTargets();
     });
 
-    const header = {
-      date: document.getElementById('fld_date').value || '',
-      shooter: document.getElementById('fld_shooter').value || '',
-      gun: document.getElementById('fld_gun').value || ''
-    };
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({header, rows: rowsData}));
-  }
+    document.addEventListener('input', (e)=>{
+      if(e.target.matches('.pts, .time, #fld_date, #fld_shooter, #fld_gun')) recalcAndSave();
+    });
 
-  function restore(){
-    try{
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if(!raw){ document.title = 'Pistol Skills'; return; }
-      const obj = JSON.parse(raw);
-      if(obj.header){
-        document.getElementById('fld_date').value = obj.header.date || '';
-        document.getElementById('fld_shooter').value = obj.header.shooter || '';
-        document.getElementById('fld_gun').value = obj.header.gun || '';
-      }
-      if(Array.isArray(obj.rows)){
-        const rows = [...document.querySelectorAll('#sheet tbody tr')];
-        obj.rows.forEach((r,i)=>{
-          const tr = rows[i]; if(!tr) return;
-          tr.querySelector('.pts').value = r.pts || '';
-          tr.querySelector('.time').value = r.time || '';
-        });
-      }
-      document.title = 'Pistol Skills';
-      // calculează HF după restaurare
-      document.querySelectorAll('#sheet tbody tr .time').forEach(()=>{});
+    document.getElementById('clear')?.addEventListener('click', ()=>{
+      document.getElementById('fld_date').value = '';
+      document.getElementById('fld_shooter').value = '';
+      document.getElementById('fld_gun').value = '';
+      document.querySelectorAll('.pts,.time').forEach(i => i.value = '');
+      localStorage.removeItem(STORAGE_KEY);
       recalcAndSave();
-    }catch(e){ console.error(e) }
-  }
-
-  // --- ȚINTE: construiește lista din folderul ./targets/ ---
-  const pathPrefix = "./targets/";
-  const targets = [
-    ["target-uspsa-a-zone-a4.pdf","USPSA A-Zone (A4) — imprimare 100%"],
-    ["target-bullseye.pdf","Bullseye clasic (score sheet)"],
-    ["drill-3-2-1-target.pdf","3-2-1 / 6-4-2 target"],
-    ["drill-cadence-bars-5m.pdf","Cadence Bars – 5 m"],
-    ["drill-cadence-bars-7m.pdf","Cadence Bars – 7 m"],
-    ["drill-dice-5m.pdf","Dice Drill – 5 m"],
-    ["drill-diminishing-dot.pdf","Diminishing Dot"],
-    ["drill-grid-square-center.pdf","Grid Square – Center"],
-    ["drill-red-dot.pdf","Red Dot zero/confirm"],
-    ["drill-risky-business-qr.pdf","„Risky Business” (QR)"]
-  ];
-  function buildTargets(){
-    const ul = document.getElementById("targets-list");
-    if(!ul) return;
-    targets.forEach(([file,label])=>{
-      const li = document.createElement("li");
-      const a = document.createElement("a");
-      a.href = pathPrefix + file;
-      a.textContent = label;
-      a.setAttribute("download", "");
-      a.target = "_blank"; a.rel = "noopener";
-      li.appendChild(a);
-      ul.appendChild(li);
     });
-  }
-
-  // Export PDF: setează un nume curat de fișier
-  function doExport(){
-    const s = (document.getElementById('fld_shooter').value || 'Shooter').replace(/\s+/g,'-');
-    const d = (document.getElementById('fld_date').value || new Date().toISOString().slice(0,10));
-    const old = document.title;
-    document.title = `Pistol-Skills_${s}_${d}`;
-    window.print();
-    document.title = old;
-  }
-
-  // init
-  document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('details.core, details.map, details.targets').forEach(d => d.removeAttribute('open')); // închise implicit
-    restore();
-    buildTargets();
-    document.getElementById('btnExport').addEventListener('click', doExport);
-  });
-
-  document.addEventListener('input', (e)=>{
-    if(e.target.matches('.pts, .time, #fld_date, #fld_shooter, #fld_gun')) recalcAndSave();
-  });
-
-  document.getElementById('clear')?.addEventListener('click', ()=>{
-    document.getElementById('fld_date').value = '';
-    document.getElementById('fld_shooter').value = '';
-    document.getElementById('fld_gun').value = '';
-    document.querySelectorAll('.pts,.time').forEach(i => i.value = '');
-    localStorage.removeItem(STORAGE_KEY);
-    recalcAndSave();
-  });
-</script>
+  </script>
 </body>
 </html>
