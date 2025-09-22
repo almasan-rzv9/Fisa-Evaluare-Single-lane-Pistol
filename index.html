@@ -26,25 +26,29 @@
   .btn{font:15px/1 "Times New Roman", Times, serif;border:1px solid #999;background:#efefef;padding:6px 10px;cursor:pointer}
   .btn:active{transform:translateY(1px)}
 
-  /* panoul Core skills + Map */
-  details.core, details.map{
+  /* panouri (Core, Harta, Ținte) */
+  details.core, details.map, details.targets{
     margin:8px 0 12px; border:1px solid #cfcfcf; background:#fbfbfb; border-radius:6px;
   }
-  details.core[open], details.map[open]{background:#f6f6f6}
-  details.core > summary, details.map > summary{
+  details.core[open], details.map[open], details.targets[open]{background:#f6f6f6}
+  details.core > summary, details.map > summary, details.targets > summary{
     list-style:none; cursor:pointer; padding:8px 10px; display:flex; align-items:center; gap:8px;
     font-weight:700;
   }
-  details.core > summary::-webkit-details-marker, details.map > summary::-webkit-details-marker{display:none}
+  details.core > summary::-webkit-details-marker,
+  details.map > summary::-webkit-details-marker,
+  details.targets > summary::-webkit-details-marker{display:none}
   .chev{display:inline-block; transition:transform .2s}
-  details.core[open] .chev, details.map[open] .chev{transform:rotate(90deg)}
-  .core-content, .map-content{padding:0 14px 10px 26px}
+  details.core[open] .chev, details.map[open] .chev, details.targets[open] .chev{transform:rotate(90deg)}
+  .core-content, .map-content, .targets-content{padding:0 14px 12px 26px}
   .core-content ol{margin:0; padding-left:18px}
   .core-content li, .map-content li{margin:6px 0}
-
   .map-content p{margin:6px 0 10px}
   .map-content .sub{margin-left:12px;margin-top:4px}
   .map-content .muted{color:var(--muted);font-size:14px}
+  .targets-list{margin:6px 0 0; padding-left:18px}
+  .targets-list li{margin:6px 0}
+  .targets a{text-decoration:none}
 
   table{width:100%;border-collapse:collapse}
   thead th{font-style:italic;text-align:left;padding:6px 8px;border-bottom:2px solid #000;white-space:nowrap}
@@ -73,7 +77,7 @@
   @page{size:A4;margin:16mm 14mm}
   @media print{
     .wrap{margin:0 auto;padding:0}
-    .toolbar, details.core, details.map{display:none} /* nu imprimăm panourile interactive */
+    .toolbar, details.core, details.map, details.targets{display:none} /* nu imprimăm panourile */
     .line-input{border-bottom:1px solid #000}
     input[type="number"], input[type="text"], input[type="date"]{border:1px solid #999}
   }
@@ -106,7 +110,7 @@
       Cold * Iron Sights * A4 (piept) = <b>1p</b> * A6 (cap) = <b>2p</b> * Pauza intre runde <b>2'</b> * Distanta laser. * Holster
     </div>
 
-    <!-- Core skills (închis implicit) -->
+    <!-- Core skills -->
     <details class="core">
       <summary><span class="chev">▶</span> Core skills</summary>
       <div class="core-content">
@@ -125,7 +129,7 @@
       </div>
     </details>
 
-    <!-- Harta skill -> Drill (închis implicit, conținut detaliat) -->
+    <!-- Harta skill -> Drill -->
     <details class="map">
       <summary><span class="chev">▶</span> Harta skill → Drill</summary>
       <div class="map-content">
@@ -140,7 +144,6 @@
               &nbsp;&nbsp;<span class="muted">Muniție: 15 • Scor: numără loviturile în interiorul zonei țintă.</span>
             </div>
           </li>
-
           <li>
             <b>Draw to first shot (from holster)</b>
             <div class="sub">
@@ -148,7 +151,6 @@
               &nbsp;&nbsp;<span class="muted">Par orientativ: 1,60 s / 1,30 s / 1,00 s • Muniție: 10 (10 rep).</span>
             </div>
           </li>
-
           <li>
             <b>Sight acquisition & visual cadence</b>
             <div class="sub">
@@ -156,7 +158,6 @@
               &nbsp;&nbsp;<span class="muted">Țintă split: ~0,25 / ~0,22 / ≤0,18 s • Muniție: 20 (10 rep).</span>
             </div>
           </li>
-
           <li>
             <b>Trigger control / precision</b>
             <div class="sub">
@@ -164,7 +165,6 @@
               &nbsp;&nbsp;<span class="muted">Par: 2,50 s / 2,00 s / 1,60 s • Muniție: 5 (5 rep).</span>
             </div>
           </li>
-
           <li>
             <b>Grip & recoil management (splits)</b>
             <div class="sub">
@@ -172,15 +172,13 @@
               &nbsp;&nbsp;<span class="muted">Par orientativ (curat): 4,0–3,5 s / 3,2–2,7 s / ≤2,4 s • Muniție: 6/rep.</span>
             </div>
           </li>
-
           <li>
             <b>Target transitions (single-lane)</b>
             <div class="sub">
-              • <b>3-Dot Sweep</b> adaptat: pe aceeași placă — A6 stânga, A4 centru, A6 dreapta; tragi 2-2-2 în ordinea aleasă.<br>
-              &nbsp;&nbsp;<span class="muted">Par orientativ (curat): 4,0–3,5 s / 3,3–2,9 s / ≤2,7 s • Muniție: 6/rep.</span>
+              • <b>3-Dot Sweep</b> adaptat: A6 stânga – A4 centru – A6 dreapta; tragi 2-2-2 în ordinea aleasă.<br>
+              &nbsp;&nbsp;<span class="muted">Par: 4,0–3,5 s / 3,3–2,9 s / ≤2,7 s • Muniție: 6/rep.</span>
             </div>
           </li>
-
           <li>
             <b>Emergency reloads</b>
             <div class="sub">
@@ -188,15 +186,13 @@
               &nbsp;&nbsp;<span class="muted">Par: 3,50 s / 2,80 s / 2,40 s • Muniție: 10 (5 rep).</span>
             </div>
           </li>
-
           <li>
             <b>SHO/WHO control (one-handed)</b>
             <div class="sub">
               • <b>Standards</b> (7 m): 5 SHO în A4 în 7,0 s + 5 WHO în A4 în 8,0 s.<br>
-              &nbsp;&nbsp;<span class="muted">Muniție: 10 • (Opțional: cap = A6 pentru dificultate).</span>
+              &nbsp;&nbsp;<span class="muted">Muniție: 10 • (Opțional: cap = A6).</span>
             </div>
           </li>
-
           <li>
             <b>Distance change-ups (near ↔ far)</b>
             <div class="sub">
@@ -204,15 +200,34 @@
               &nbsp;&nbsp;<span class="muted">Muniție: 10/ciclu.</span>
             </div>
           </li>
-
           <li>
             <b>Throttle control (speed vs accuracy)</b>
             <div class="sub">
-              • <b>FAST</b> (7 m): 2 în A6 (cap) → reload → 4 în A4 (piept).<br>
-              &nbsp;&nbsp;<span class="muted">Par (curat): 9–7 s / 7–5 s / ≤5,0 s • Muniție: 6/rep (3 încercări = 18 muniții tipic).</span>
+              • <b>FAST</b> (7 m): 2 în A6 → reload → 4 în A4.<br>
+              &nbsp;&nbsp;<span class="muted">Par: 9–7 s / 7–5 s / ≤5,0 s • Muniție: 6/rep.</span>
             </div>
           </li>
         </ol>
+      </div>
+    </details>
+
+    <!-- ȚINTE PDF (descărcare) -->
+    <details class="targets">
+      <summary><span class="chev">▶</span> Ținte PDF (descărcare/printare)</summary>
+      <div class="targets-content">
+        <ul class="targets-list">
+          <li><a href="target-uspsa-a-zone-a4.pdf" download>USPSA A-Zone (A4) — imprimare 100%</a></li>
+          <li><a href="target-bullseye.pdf" download>Bullseye clasic (score sheet)</a></li>
+          <li><a href="drill-3-2-1-target.pdf" download>3-2-1 / 6-4-2 target</a></li>
+          <li><a href="drill-cadence-bars-5m.pdf" download>Cadence Bars – 5 m</a></li>
+          <li><a href="drill-cadence-bars-7m.pdf" download>Cadence Bars – 7 m</a></li>
+          <li><a href="drill-dice-5m.pdf" download>Dice Drill – 5 m</a></li>
+          <li><a href="drill-diminishing-dot.pdf" download>Diminishing Dot</a></li>
+          <li><a href="drill-grid-square-center.pdf" download>Grid Square – Center</a></li>
+          <li><a href="drill-red-dot.pdf" download>Red Dot zero/confirm</a></li>
+          <li><a href="drill-risky-business-qr.pdf" download>„Risky Business” (QR)</a></li>
+        </ul>
+        <p class="muted">Tip: la print, setează „Scale/Scalează: 100% (Actual size)” și „Paper size: A4”.</p>
       </div>
     </details>
 
@@ -237,6 +252,7 @@
         </tr>
       </thead>
       <tbody>
+        <!-- rânduri editabile; HF se calculează automat -->
         <tr><td class="c-idx">1.</td><td>Safe gun handling & consistency</td><td><span class="b">Mini Super Test</span> – string 1</td><td class="b">15 m</td><td><span class="lov">/3</span></td><td><input inputmode="numeric" type="number" step="1" class="pts"></td><td><input inputmode="decimal" type="number" step="0.01" class="time"></td><td><div class="hf-box"></div></td></tr>
         <tr><td class="c-idx">2.</td><td>Safe gun handling & consistency</td><td><span class="b">Mini Super Test</span> – string 2</td><td class="b">10 m</td><td><span class="lov">/3</span></td><td><input inputmode="numeric" type="number" step="1" class="pts"></td><td><input inputmode="decimal" type="number" step="0.01" class="time"></td><td><div class="hf-box"></div></td></tr>
         <tr><td class="c-idx">3.</td><td>Safe gun handling & consistency</td><td><span class="b">Mini Super Test</span> – string 3</td><td class="b">5 m</td><td><span class="lov">/3</span></td><td><input inputmode="numeric" type="number" step="1" class="pts"></td><td><input inputmode="decimal" type="number" step="0.01" class="time"></td><td><div class="hf-box"></div></td></tr>
@@ -303,9 +319,8 @@
       }catch(e){ console.error(e) }
     }
 
-    // Close core/map panels on load (failsafe) and ensure they're hidden in print
     document.addEventListener('DOMContentLoaded', () => {
-      document.querySelectorAll('details.core, details.map').forEach(d => d.removeAttribute('open'));
+      document.querySelectorAll('details.core, details.map, details.targets').forEach(d => d.removeAttribute('open')); // toate închise implicit
       restore();
     });
 
