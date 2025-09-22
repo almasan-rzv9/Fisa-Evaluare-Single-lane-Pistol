@@ -77,7 +77,7 @@
   @page{size:A4;margin:16mm 14mm}
   @media print{
     .wrap{margin:0 auto;padding:0}
-    .toolbar, details.core, details.map, details.targets{display:none} /* nu imprimăm panourile */
+    .toolbar, details.core, details.map, details.targets{display:none}
     .line-input{border-bottom:1px solid #000}
     input[type="number"], input[type="text"], input[type="date"]{border:1px solid #999}
   }
@@ -215,18 +215,7 @@
     <details class="targets">
       <summary><span class="chev">▶</span> Ținte PDF (descărcare/printare)</summary>
       <div class="targets-content">
-        <ul class="targets-list">
-          <li><a href="target-uspsa-a-zone-a4.pdf" download>USPSA A-Zone (A4) — imprimare 100%</a></li>
-          <li><a href="target-bullseye.pdf" download>Bullseye clasic (score sheet)</a></li>
-          <li><a href="drill-3-2-1-target.pdf" download>3-2-1 / 6-4-2 target</a></li>
-          <li><a href="drill-cadence-bars-5m.pdf" download>Cadence Bars – 5 m</a></li>
-          <li><a href="drill-cadence-bars-7m.pdf" download>Cadence Bars – 7 m</a></li>
-          <li><a href="drill-dice-5m.pdf" download>Dice Drill – 5 m</a></li>
-          <li><a href="drill-diminishing-dot.pdf" download>Diminishing Dot</a></li>
-          <li><a href="drill-grid-square-center.pdf" download>Grid Square – Center</a></li>
-          <li><a href="drill-red-dot.pdf" download>Red Dot zero/confirm</a></li>
-          <li><a href="drill-risky-business-qr.pdf" download>„Risky Business” (QR)</a></li>
-        </ul>
+        <ul class="targets-list" id="targets-list"></ul>
         <p class="muted">Tip: la print, setează „Scale/Scalează: 100% (Actual size)” și „Paper size: A4”.</p>
       </div>
     </details>
@@ -319,9 +308,40 @@
       }catch(e){ console.error(e) }
     }
 
+    // --- ȚINTE: construiește lista din folderul ./targets/ ---
+    const pathPrefix = "./targets/";
+    const targets = [
+      ["target-uspsa-a-zone-a4.pdf","USPSA A-Zone (A4) — imprimare 100%"],
+      ["target-bullseye.pdf","Bullseye clasic (score sheet)"],
+      ["drill-3-2-1-target.pdf","3-2-1 / 6-4-2 target"],
+      ["drill-cadence-bars-5m.pdf","Cadence Bars – 5 m"],
+      ["drill-cadence-bars-7m.pdf","Cadence Bars – 7 m"],
+      ["drill-dice-5m.pdf","Dice Drill – 5 m"],
+      ["drill-diminishing-dot.pdf","Diminishing Dot"],
+      ["drill-grid-square-center.pdf","Grid Square – Center"],
+      ["drill-red-dot.pdf","Red Dot zero/confirm"],
+      ["drill-risky-business-qr.pdf","„Risky Business” (QR)"]
+    ];
+    function buildTargets(){
+      const ul = document.getElementById("targets-list");
+      if(!ul) return;
+      targets.forEach(([file,label])=>{
+        const li = document.createElement("li");
+        const a = document.createElement("a");
+        a.href = pathPrefix + file;
+        a.textContent = label;
+        a.setAttribute("download", "");
+        a.target = "_blank"; a.rel = "noopener";
+        li.appendChild(a);
+        ul.appendChild(li);
+      });
+    }
+
+    // init
     document.addEventListener('DOMContentLoaded', () => {
-      document.querySelectorAll('details.core, details.map, details.targets').forEach(d => d.removeAttribute('open')); // toate închise implicit
+      document.querySelectorAll('details.core, details.map, details.targets').forEach(d => d.removeAttribute('open'));
       restore();
+      buildTargets();
     });
 
     document.addEventListener('input', (e)=>{
