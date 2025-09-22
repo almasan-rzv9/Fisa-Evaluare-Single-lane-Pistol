@@ -1,271 +1,145 @@
 <!doctype html>
 <html lang="ro">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Fișă de evaluare – Single‑Lane Pistol</title>
-  <style>
-    :root{
-      --bg:#0b0c10;--panel:#14161a;--ink:#e8eef6;--muted:#9fb1c7;--accent:#6ee7b7;--accentHi:#34d399;--danger:#ef4444;--warn:#f59e0b;
-      --br:16px;--pad:14px;--gap:12px;--ring:0 0 0 2px rgba(110,231,183,.35);
-      --mono:"SFMono-Regular",Consolas,Menlo,monospace;--sans:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{margin:0;background:linear-gradient(180deg,#0b0c10,#0e1116);color:var(--ink);font-family:var(--sans);}
-    .wrap{max-width:1100px;margin:32px auto;padding:0 16px 64px}
-    h1{font-size:clamp(20px,3vw,28px);margin:0 0 12px}
-    p.lead{color:var(--muted);margin:0 0 20px}
-    .card{background:var(--panel);border-radius:var(--br);padding:var(--pad);box-shadow:0 8px 30px rgba(0,0,0,.35);border:1px solid #1e2127}
-    .grid{display:grid;gap:var(--gap)}
-    .grid.cols-2{grid-template-columns:1fr 1fr}
-    .grid.cols-3{grid-template-columns:repeat(3,1fr)}
-    label{font-size:12px;color:var(--muted)}
-    input,select,button,textarea{font:inherit;color:inherit}
-    .fld{display:flex;flex-direction:column;gap:6px}
-    .fld input,.fld select,.fld textarea{padding:10px 12px;border-radius:12px;background:#0f1116;border:1px solid #1f2430;outline:none;transition:.15s}
-    .fld input:focus,.fld select:focus,.fld textarea:focus{box-shadow:var(--ring);border-color:#263245}
-    .row-title{font-weight:700}
-    .table{width:100%;border-collapse:separate;border-spacing:0 8px}
-    .table thead th{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);text-align:left;padding:0 10px}
-    .table tbody tr{background:var(--panel);border-radius:14px}
-    .table tbody td{padding:10px;border-top:1px solid #1f2430;border-bottom:1px solid #1f2430}
-    .table tbody td:first-child{border-left:1px solid #1f2430;border-top-left-radius:14px;border-bottom-left-radius:14px}
-    .table tbody td:last-child{border-right:1px solid #1f2430;border-top-right-radius:14px;border-bottom-right-radius:14px}
-    .tag{display:inline-flex;align-items:center;gap:6px;background:#0f1320;border:1px solid #27314a;color:#9fb1c7;padding:4px 8px;border-radius:999px;font-size:12px}
-    .btns{display:flex;flex-wrap:wrap;gap:10px}
-    .btn{padding:10px 14px;border-radius:12px;border:1px solid #27314a;background:#0f1320;color:var(--ink);cursor:pointer}
-    .btn:hover{border-color:#334160}
-    .btn.primary{background:linear-gradient(180deg,#16a34a,#059669);border-color:#0b7a4e}
-    .btn.warn{background:linear-gradient(180deg,#f59e0b,#d97706);border-color:#b45309}
-    .btn.ghost{background:transparent;border-color:#263245}
-    .pill{display:inline-block;margin-left:8px;font-family:var(--mono);color:var(--accent);font-size:12px}
-    .right{text-align:right}
-    .muted{color:var(--muted)}
-    .danger{color:var(--danger)}
-    .note{font-size:12px;color:var(--muted)}
-    .small{font-size:12px}
-    .footer{margin-top:18px;display:flex;justify-content:space-between;align-items:center;color:var(--muted)}
-    @media (max-width:900px){.grid.cols-2,.grid.cols-3{grid-template-columns:1fr}}
-  </style>
+<meta charset="utf-8">
+<title>Fișă de evaluare</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  /* Pagina A4, aspect clasic alb-negru pentru print */
+  :root{ --fg:#111; --muted:#333; --grid:#d6d6d6; --gridDark:#bfbfbf; }
+  html,body{background:#fff;color:var(--fg);font:16px/1.4 "Georgia", "Times New Roman", Times, serif;margin:0}
+  .wrap{max-width:900px;margin:28px auto 60px;padding:0 14px}
+  h1{font-weight:700;font-size:36px;text-align:center;margin:0 0 18px}
+  .meta{margin:18px 0 10px}
+  .meta-row{display:flex;gap:28px;margin:10px 0}
+  .lbl{font-style:italic;min-width:88px}
+  .line{flex:1;border-bottom:1px solid #999;height:24px}
+  .note{margin:8px 0 18px;color:#000}
+  .hr{height:1px;background:#aaa;margin:14px 0 10px}
+
+  table{width:100%;border-collapse:collapse}
+  thead th{
+    font-style:italic;
+    font-weight:700;
+    padding:6px 8px;
+    border-bottom:2px solid #000;
+    text-align:left;
+  }
+  tbody td{
+    padding:6px 8px;
+    border-bottom:1px solid var(--grid);
+    vertical-align:top;
+  }
+  tbody tr:nth-child(odd) td{background:#f7f7f7}
+  .col-num{width:28px;text-align:right}
+  .col-skill{width:240px}
+  .col-drill{width:280px}
+  .col-dist{width:85px;white-space:nowrap}
+  .col-lov{width:70px;text-align:center;white-space:nowrap}
+  .col-time,.col-pts,.col-hf{width:90px;text-align:center}
+
+  .i{font-style:italic}
+  .b{font-weight:700}
+  .muted{color:var(--muted)}
+  .totals{margin-top:12px}
+  .totals .label{font-weight:700}
+  .foot{margin-top:6px;font-size:15px}
+  @page{size:A4;margin:16mm 14mm}
+  @media print{
+    .wrap{margin:0 auto;padding:0}
+    a{color:inherit;text-decoration:none}
+  }
+</style>
 </head>
 <body>
   <div class="wrap">
-    <h1>Fișă de evaluare – Single‑Lane Pistol</h1>
-    <p class="lead">Reguli: <span class="tag">A4 (piept) = <b>1p</b></span> <span class="tag">A6 (cap) = <b>2p</b></span> <span class="tag">Miss = <b id="missRule">0p</b></span> <span class="tag">HF = Puncte / Timp</span></p>
+    <h1>Fișă de evaluare</h1>
 
-    <!-- Header form -->
-    <div class="card grid cols-3" id="hdr">
-      <div class="fld"><label>Data</label><input id="date" type="date"></div>
-      <div class="fld"><label>Trăgător</label><input id="shooter" placeholder="Nume & prenume"></div>
-      <div class="fld"><label>Arma</label><input id="gun" placeholder="Model / Calibru"></div>
-      <div class="fld"><label>Setări sesiune</label>
-        <div class="btns">
-          <button class="btn ghost" data-toggle="cold">Cold</button>
-          <button class="btn ghost" data-toggle="irons">Iron Sights</button>
-          <button class="btn ghost" data-toggle="holster">Holster</button>
-          <button class="btn ghost" data-toggle="laser">Distanță laser</button>
-          <button class="btn ghost" id="toggleMiss">Miss = 0p</button>
-        </div>
-      </div>
-      <div class="fld"><label>Pauză între runde</label><input id="rest" value="2 min"/></div>
-      <div class="fld"><label>Notițe</label><input id="notes" placeholder="Condiții lumină, muniție, etc."></div>
+    <div class="meta">
+      <div class="meta-row"><div class="lbl">Data:</div><div class="line"></div></div>
+      <div class="meta-row"><div class="lbl">Trăgător:</div><div class="line"></div></div>
+      <div class="meta-row"><div class="lbl">Arma:</div><div class="line"></div></div>
     </div>
 
-    <!-- Table -->
-    <div class="card" style="margin-top:16px">
-      <table class="table" id="tbl">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Skill</th>
-            <th>Drill</th>
-            <th>Distanță</th>
-            <th class="right">Focuri</th>
-            <th class="right">A6 (cap)</th>
-            <th class="right">A4 (piept)</th>
-            <th class="right">Miss</th>
-            <th class="right">Timp (s)</th>
-            <th class="right">Puncte</th>
-            <th class="right">HF</th>
-          </tr>
-        </thead>
-        <tbody id="rows"></tbody>
-      </table>
-      <div class="footer">
-        <div>
-          <span>Total muniție: <b id="ammo">0</b></span>
-          <span class="pill">Total puncte: <span id="ptsTotal">0</span></span>
-          <span class="pill">Timp total: <span id="timeTotal">0.00</span>s</span>
-        </div>
-        <div class="btns">
-          <button class="btn primary" id="save">Salvează</button>
-          <button class="btn" id="exportCsv">Export CSV</button>
-          <button class="btn" id="exportJson">Export JSON</button>
-          <button class="btn warn" id="reset">Reset</button>
-        </div>
-      </div>
-      <p class="note">Consemnare: folosește <b>Timp total</b> pe drill (suma repetărilor), nu media. Dacă vrei Miss = −1p, apasă „Miss = 0p” pentru a comuta la penalizare.</p>
+    <div class="note">
+      Cold * Iron Sights * A4 (piept) = <b>1p</b> * A6 (cap) = <b>2p</b> * Pauza intre runde <b>2'</b> * Distanta laser. * Holster
     </div>
 
-    <div class="card" style="margin-top:16px">
-      <details>
-        <summary class="small">Instrucțiuni GitHub Pages (gratis)</summary>
-        <ol class="small">
-          <li>Deschide <b>github.com</b> → New Repository → nume de ex. <i>pistol-eval</i> → public.</li>
-          <li>Creează fișierul <b>index.html</b> și lipește acest cod. Commit.</li>
-          <li>Settings → Pages → Source: <b>Deploy from a branch</b> → Branch: <b>main / root</b> → Save.</li>
-          <li>În ~1 minut, pagina ta va fi la: <i>https://username.github.io/pistol-eval</i>.</li>
-        </ol>
-      </details>
-    </div>
+    <div class="hr"></div>
 
-  </div>
-
-  <script>
-    // ------- Config drill rows -------
-    const MISS_NEGATIVE = { none: 0, minus1: -1 };
-    let missMode = 'none';
-
-    const drills = [
-      { id:1, skill:'Safe gun handling & consistency', name:'Mini Super Test – string 1', dist:'15 m', shots:3, a6:true, a4:false },
-      { id:1.2, skill:'', name:'Mini Super Test – string 2', dist:'10 m', shots:3, a6:false, a4:true },
-      { id:1.3, skill:'', name:'Mini Super Test – string 3', dist:'5 m', shots:3, a6:false, a4:true },
-      { id:2, skill:'Draw to first shot', name:'Draw-to-1', dist:'7 m', shots:1, a6:false, a4:true },
-      { id:3, skill:'Sight acquisition & cadence', name:'Doubles', dist:'7 m', shots:4, a6:false, a4:true },
-      { id:4, skill:'Trigger control / precision', name:'Head shot', dist:'7 m', shots:4, a6:true, a4:false },
-      { id:5, skill:'Grip & recoil (splits)', name:'Bill Drill', dist:'7 m', shots:6, a6:false, a4:true },
-      { id:6, skill:'Target transitions', name:'3-Target Sweep', dist:'7 m', shots:6, a6:true, a4:true },
-      { id:7, skill:'Emergency reloads', name:'1R1', dist:'7 m', shots:2, a6:false, a4:true },
-      { id:8, skill:'SHO/WHO control', name:'SHO/WHO Standards (SHO)', dist:'7 m', shots:3, a6:false, a4:true },
-      { id:8.2, skill:'', name:'SHO/WHO Standards (WHO)', dist:'7 m', shots:3, a6:false, a4:true },
-      { id:9, skill:'Distance change-ups', name:'Size Change-Up (pe loc)', dist:'7–10 m', shots:6, a6:true, a4:true },
-      { id:10, skill:'Throttle control', name:'FAST (cap→rl→piept)', dist:'7 m', shots:6, a6:true, a4:true, fastSplit:true },
-    ];
-
-    const rowsTbody = document.getElementById('rows');
-
-    function fmt(n){ return isFinite(n)? (Math.round(n*100)/100).toFixed(2) : '0.00'; }
-
-    function rowHtml(i,d){
-      const expect = `<span class="muted">/${d.shots}</span>`;
-      const a6dis = d.a6? '' : 'disabled';
-      const a4dis = d.a4? '' : 'disabled';
-      const missTitle = 'Dacă totalul A6+A4 < focuri, restul sunt Miss (opțional penalizate)';
-      return `
-      <tr data-id="${d.id}">
-        <td class="small">${Math.ceil(i)}</td>
-        <td class="small">${d.skill||''}</td>
-        <td class="row-title small">${d.name}</td>
-        <td class="small">${d.dist}</td>
-        <td class="right">${expect}</td>
-        <td class="right"><input type="number" min="0" value="0" class="a6" ${a6dis} /></td>
-        <td class="right"><input type="number" min="0" value="0" class="a4" ${a4dis} /></td>
-        <td class="right" title="${missTitle}"><input type="number" min="0" value="0" class="miss" /></td>
-        <td class="right"><input type="number" min="0" step="0.01" value="0" class="time" /></td>
-        <td class="right pts">0</td>
-        <td class="right hf">0.00</td>
-      </tr>`
-    }
-
-    function build(){ rowsTbody.innerHTML = drills.map((d,idx)=>rowHtml(idx+1,d)).join(''); bind(); recalc(); }
-
-    function bind(){
-      rowsTbody.querySelectorAll('input').forEach(el=> el.addEventListener('input', recalc));
-      document.getElementById('save').addEventListener('click', save);
-      document.getElementById('reset').addEventListener('click', ()=>{localStorage.removeItem('pistolEval'); build();});
-      document.getElementById('exportCsv').addEventListener('click', exportCsv);
-      document.getElementById('exportJson').addEventListener('click', exportJson);
-      document.querySelectorAll('[data-toggle]').forEach(btn=>btn.addEventListener('click', e=>{
-        e.preventDefault(); btn.classList.toggle('primary'); btn.classList.toggle('ghost');
-      }));
-      document.getElementById('toggleMiss').addEventListener('click', (e)=>{
-        e.preventDefault();
-        missMode = missMode==='none' ? 'minus1':'none';
-        document.getElementById('missRule').textContent = missMode==='none' ? '0p' : '−1p';
-        e.target.textContent = missMode==='none' ? 'Miss = 0p' : 'Miss = −1p';
-        recalc();
-      })
-    }
-
-    function recalc(){
-      let ammo=0, ptsTot=0, timeTot=0;
-      rowsTbody.querySelectorAll('tr').forEach((tr,idx)=>{
-        const d = drills[idx];
-        const a6 = Number(tr.querySelector('.a6')?.value||0);
-        const a4 = Number(tr.querySelector('.a4')?.value||0);
-        const missMan = Number(tr.querySelector('.miss')?.value||0);
-        const time = Number(tr.querySelector('.time')?.value||0);
-        const shots = d.shots;
-        // auto-miss if user didn't type misses but total hits < shots
-        const autoMiss = Math.max(0, shots - (a6 + a4));
-        const miss = Math.max(missMan, autoMiss);
-        const missPenalty = miss * (missMode==='minus1'? 1: 0);
-        const pts = (a6*2) + (a4*1) - missPenalty;
-        const hf = (time>0)? (pts/time) : 0;
-        ammo += shots; ptsTot += Math.max(0,pts); timeTot += time;
-        tr.querySelector('.pts').textContent = Math.max(0,pts);
-        tr.querySelector('.hf').textContent = fmt(hf);
-      });
-      document.getElementById('ammo').textContent = ammo;
-      document.getElementById('ptsTotal').textContent = Math.max(0,ptsTot);
-      document.getElementById('timeTotal').textContent = fmt(timeTot);
-    }
-
-    function collect(){
-      const rows=[...rowsTbody.querySelectorAll('tr')].map((tr,idx)=>{
-        const d=drills[idx];
-        const a6=Number(tr.querySelector('.a6')?.value||0);
-        const a4=Number(tr.querySelector('.a4')?.value||0);
-        const missMan=Number(tr.querySelector('.miss')?.value||0);
-        const time=Number(tr.querySelector('.time')?.value||0);
-        const shots=d.shots; const autoMiss=Math.max(0,shots-(a6+a4)); const miss=Math.max(missMan,autoMiss);
-        const missPenalty=miss*(missMode==='minus1'?1:0);
-        const pts=(a6*2)+(a4*1)-missPenalty; const hf=time>0?pts/time:0;
-        return {skill:d.skill||null,drill:d.name,dist:d.dist,shots,cap:a6,piept:a4,miss,time,pts,hf};
-      });
-      return {
-        header:{date:date.value,shooter:shooter.value,gun:gun.value,rest:rest.value,notes:notes.value,flags:getFlags(),missMode},
-        totals:{ammo:document.getElementById('ammo').textContent,pts:document.getElementById('ptsTotal').textContent,time:document.getElementById('timeTotal').textContent},
-        rows
-      };
-    }
-
-    function getFlags(){
-      const flags={};
-      document.querySelectorAll('[data-toggle]').forEach(btn=>{flags[btn.dataset.toggle]=btn.classList.contains('primary')});
-      return flags;
-    }
-
-    function save(){ const data=collect(); localStorage.setItem('pistolEval', JSON.stringify(data)); flash('Salvat local!'); }
-
-    function load(){ const raw=localStorage.getItem('pistolEval'); if(!raw) return; try{ const data=JSON.parse(raw);
-      date.value=data.header.date||''; shooter.value=data.header.shooter||''; gun.value=data.header.gun||''; rest.value=data.header.rest||'2 min'; notes.value=data.header.notes||'';
-      if(data.header.missMode){ missMode=data.header.missMode; document.getElementById('missRule').textContent = missMode==='none' ? '0p' : '−1p'; document.getElementById('toggleMiss').textContent = missMode==='none' ? 'Miss = 0p' : 'Miss = −1p'; }
-      const flags=data.header.flags||{}; document.querySelectorAll('[data-toggle]').forEach(btn=>{ if(flags[btn.dataset.toggle]) btn.classList.add('primary'); btn.classList.remove('ghost'); });
-      data.rows?.forEach((r,idx)=>{ const tr=rowsTbody.querySelectorAll('tr')[idx]; if(!tr) return; tr.querySelector('.a6')?.setAttribute('value',r.cap); tr.querySelector('.a6')&&(tr.querySelector('.a6').value=r.cap);
-        tr.querySelector('.a4')?.setAttribute('value',r.piept); tr.querySelector('.a4')&&(tr.querySelector('.a4').value=r.piept);
-        tr.querySelector('.miss')?.setAttribute('value',r.miss); tr.querySelector('.miss')&&(tr.querySelector('.miss').value=r.miss);
-        tr.querySelector('.time')?.setAttribute('value',r.time); tr.querySelector('.time')&&(tr.querySelector('.time').value=r.time);
-      });
-      recalc();
-    }catch(e){console.error(e)} }
-
-    function exportCsv(){
-      const data=collect();
-      const header=['skill','drill','dist','shots','cap(A6)','piept(A4)','miss','time(s)','points','HF'];
-      const rows=data.rows.map(r=>[r.skill||'',r.drill,r.dist,r.shots,r.cap,r.piept,r.miss,r.time,r.pts,r.hf.toFixed(2)]);
-      const csv=[header,...rows].map(a=>a.map(x=>`"${String(x).replaceAll('"','""')}"`).join(',')).join('\n');
-      download('pistol-eval.csv', csv, 'text/csv');
-    }
-
-    function exportJson(){ const data=collect(); download('pistol-eval.json', JSON.stringify(data,null,2),'application/json'); }
-
-    function download(name, content, type){ const blob=new Blob([content],{type}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name; a.click(); URL.revokeObjectURL(a.href); }
-
-    function flash(msg){ const el=document.createElement('div'); el.textContent=msg; Object.assign(el.style,{position:'fixed',bottom:'20px',right:'20px',padding:'10px 14px',background:'#0f1320',border:'1px solid #27314a',borderRadius:'12px',color:'var(--ink)',boxShadow:'0 8px 30px rgba(0,0,0,.35)'}); document.body.appendChild(el); setTimeout(()=>el.remove(),2000); }
-
-    build(); load();
-  </script>
-</body>
-</html>
+    <table>
+      <thead>
+        <tr>
+          <th class="col-num">#</th>
+          <th class="col-skill i">Skill (1–10)</th>
+          <th class="col-drill i">Drill (principal)</th>
+          <th class="col-dist i">Distanță</th>
+          <th class="col-lov i">Lovituri</th>
+          <th class="col-time i">Timp (s)</th>
+          <th class="col-pts i">Puncte</th>
+          <th class="col-hf i">HF</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-num">1.</td>
+          <td>Safe gun handling & consistency</td>
+          <td><span class="b">Mini Super Test</span> – string 1</td>
+          <td class="col-dist"><span class="b">15 m</span></td>
+          <td class="col-lov muted">/3</td>
+          <td class="col-time"></td><td class="col-pts"></td><td class="col-hf"></td>
+        </tr>
+        <tr>
+          <td class="col-num">2.</td>
+          <td>Safe gun handling & consistency</td>
+          <td><span class="b">Mini Super Test</span> – string 2</td>
+          <td class="col-dist"><span class="b">10 m</span></td>
+          <td class="col-lov muted">/3</td>
+          <td></td><td></td><td></td>
+        </tr>
+        <tr>
+          <td class="col-num">3.</td>
+          <td>Safe gun handling & consistency</td>
+          <td><span class="b">Mini Super Test</span> – string 3</td>
+          <td class="col-dist"><span class="b">5 m</span></td>
+          <td class="col-lov muted">/3</td>
+          <td></td><td></td><td></td>
+        </tr>
+        <tr>
+          <td class="col-num">4.</td>
+          <td>Draw to first shot</td>
+          <td class="b">Draw-to-1</td>
+          <td>7 m</td>
+          <td class="muted">/1</td>
+          <td></td><td></td><td></td>
+        </tr>
+        <tr>
+          <td class="col-num">5.</td>
+          <td>Sight acquisition & cadence</td>
+          <td class="b">Doubles</td>
+          <td>7 m</td>
+          <td class="muted">/4</td>
+          <td></td><td></td><td></td>
+        </tr>
+        <tr>
+          <td class="col-num">6.</td>
+          <td>Trigger control / precision</td>
+          <td class="b">Head shot</td>
+          <td>7 m</td>
+          <td class="muted">/4</td>
+          <td></td><td></td><td></td>
+        </tr>
+        <tr>
+          <td class="col-num">7.</td>
+          <td>Grip & recoil (splits)</td>
+          <td class="b">Bill Drill</td>
+          <td>7 m</td>
+          <td class="muted">/6</td>
+          <td></td><td></td><td></td>
+        </tr>
+        <tr>
+          <td class="col-num">8.</td>
+          <td>Target transitions</td>
+          <td class="b">3-Target Sweep</td>
+          <td>7 m</td>
+          <td class="muted">/6</td>
