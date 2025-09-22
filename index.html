@@ -14,15 +14,9 @@
   .meta{margin:10px 0 8px}
   .meta-row{display:flex;align-items:center;gap:18px;margin:8px 0}
   .lbl{font-style:italic;min-width:95px}
-  /* input-line style to look like underline */
   .line-input{
-    flex:1;
-    border:0;
-    border-bottom:1px solid #999;
-    padding:6px 6px;
-    font:16px/1.2 "Times New Roman", Times, serif;
-    outline:none;
-    background:transparent;
+    flex:1;border:0;border-bottom:1px solid #999;padding:6px 6px;
+    font:16px/1.2 "Times New Roman", Times, serif;outline:none;background:transparent;
   }
 
   .note{margin:8px 0 12px}
@@ -31,6 +25,22 @@
   .toolbar{display:flex;justify-content:flex-end;gap:8px;margin:6px 0 8px}
   .btn{font:15px/1 "Times New Roman", Times, serif;border:1px solid #999;background:#efefef;padding:6px 10px;cursor:pointer}
   .btn:active{transform:translateY(1px)}
+
+  /* panou Core skills */
+  details.core{
+    margin:8px 0 12px; border:1px solid #cfcfcf; background:#fbfbfb; border-radius:6px;
+  }
+  details.core[open]{background:#f6f6f6}
+  details.core > summary{
+    list-style:none; cursor:pointer; padding:8px 10px; display:flex; align-items:center; gap:8px;
+    font-weight:700;
+  }
+  details.core > summary::-webkit-details-marker{display:none}
+  .chev{display:inline-block; transition:transform .2s}
+  details.core[open] .chev{transform:rotate(90deg)}
+  .core-content{padding:0 14px 10px 26px}
+  .core-content ol{margin:0; padding-left:18px}
+  .core-content li{margin:4px 0}
 
   table{width:100%;border-collapse:collapse}
   thead th{font-style:italic;text-align:left;padding:6px 8px;border-bottom:2px solid #000;white-space:nowrap}
@@ -47,12 +57,11 @@
   .i{font-style:italic}
   .lov{display:inline-block;min-width:36px;padding:0 6px;background:#e9e9e9;border-radius:3px}
 
-  /* INPUTURI */
   input[type="number"], input[type="text"], input[type="date"]{
-    width:88px; padding:4px 6px; border:1px solid #888; border-radius:4px;
-    font:16px "Times New Roman", Times, serif; background:#fff;
+    width:88px;padding:4px 6px;border:1px solid #888;border-radius:4px;
+    font:16px "Times New Roman", Times, serif;background:#fff;
   }
-  .hf-box{min-height:28px; padding:4px 6px; border:1px solid #bbb; border-radius:4px; background:#fff}
+  .hf-box{min-height:28px;padding:4px 6px;border:1px solid #bbb;border-radius:4px;background:#fff}
 
   .tot{margin-top:10px}
   .foot{margin-top:6px;color:var(--muted)}
@@ -60,12 +69,10 @@
   @page{size:A4;margin:16mm 14mm}
   @media print{
     .wrap{margin:0 auto;padding:0}
-    .toolbar{display:none}
-    /* la print vrem să se vadă liniile ca în document tipărit */
+    .toolbar, details.core{display:none} /* nu imprimăm panoul Core skills */
     .line-input{border-bottom:1px solid #000}
     input[type="number"], input[type="text"], input[type="date"]{border:1px solid #999}
   }
-  /* Responsive: inputurile mari pe mobil */
   @media (max-width:520px){
     .wrap{padding:0 10px}
     input[type="number"], input[type="text"]{width:68px}
@@ -95,6 +102,25 @@
       Cold * Iron Sights * A4 (piept) = <b>1p</b> * A6 (cap) = <b>2p</b> * Pauza intre runde <b>2'</b> * Distanta laser. * Holster
     </div>
 
+    <!-- BUTON/PANOU: Core skills -->
+    <details class="core">
+      <summary><span class="chev">▶</span> Core skills</summary>
+      <div class="core-content">
+        <ol>
+          <li>Safe gun handling & consistency</li>
+          <li>Draw to first shot (from holster)</li>
+          <li>Sight acquisition & visual cadence</li>
+          <li>Trigger control / precision</li>
+          <li>Grip & recoil management (splits)</li>
+          <li>Target transitions</li>
+          <li>Tactical/Speed reloads</li>
+          <li>SHO/WHO control (strong-hand only / weak-hand only)</li>
+          <li>Distance change-ups (near ↔ far)</li>
+          <li>Throttle control (speed vs accuracy under par time)</li>
+        </ol>
+      </div>
+    </details>
+
     <div class="rule"></div>
 
     <div class="toolbar">
@@ -116,136 +142,19 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td class="c-idx">1.</td>
-          <td>Safe gun handling & consistency</td>
-          <td><span class="b">Mini Super Test</span> – string 1</td>
-          <td class="b">15 m</td>
-          <td><span class="lov">/3</span></td>
-          <td><input inputmode="numeric" type="number" step="1" class="pts"></td>
-          <td><input inputmode="decimal" type="number" step="0.01" class="time"></td>
-          <td><div class="hf-box"></div></td>
-        </tr>
-        <tr>
-          <td class="c-idx">2.</td>
-          <td>Safe gun handling & consistency</td>
-          <td><span class="b">Mini Super Test</span> – string 2</td>
-          <td class="b">10 m</td>
-          <td><span class="lov">/3</span></td>
-          <td><input inputmode="numeric" type="number" step="1" class="pts"></td>
-          <td><input inputmode="decimal" type="number" step="0.01" class="time"></td>
-          <td><div class="hf-box"></div></td>
-        </tr>
-        <tr>
-          <td class="c-idx">3.</td>
-          <td>Safe gun handling & consistency</td>
-          <td><span class="b">Mini Super Test</span> – string 3</td>
-          <td class="b">5 m</td>
-          <td><span class="lov">/3</span></td>
-          <td><input inputmode="numeric" type="number" step="1" class="pts"></td>
-          <td><input inputmode="decimal" type="number" step="0.01" class="time"></td>
-          <td><div class="hf-box"></div></td>
-        </tr>
-        <tr>
-          <td class="c-idx">4.</td>
-          <td>Draw to first shot</td>
-          <td class="b">Draw-to-1</td>
-          <td>7 m</td>
-          <td><span class="lov">/1</span></td>
-          <td><input inputmode="numeric" type="number" step="1" class="pts"></td>
-          <td><input inputmode="decimal" type="number" step="0.01" class="time"></td>
-          <td><div class="hf-box"></div></td>
-        </tr>
-        <tr>
-          <td class="c-idx">5.</td>
-          <td>Sight acquisition & cadence</td>
-          <td class="b">Doubles</td>
-          <td>7 m</td>
-          <td><span class="lov">/4</span></td>
-          <td><input inputmode="numeric" type="number" step="1" class="pts"></td>
-          <td><input inputmode="decimal" type="number" step="0.01" class="time"></td>
-          <td><div class="hf-box"></div></td>
-        </tr>
-        <tr>
-          <td class="c-idx">6.</td>
-          <td>Trigger control / precision</td>
-          <td class="b">Head shot</td>
-          <td>7 m</td>
-          <td><span class="lov">/4</span></td>
-          <td><input inputmode="numeric" type="number" step="1" class="pts"></td>
-          <td><input inputmode="decimal" type="number" step="0.01" class="time"></td>
-          <td><div class="hf-box"></div></td>
-        </tr>
-        <tr>
-          <td class="c-idx">7.</td>
-          <td>Grip & recoil (splits)</td>
-          <td class="b">Bill Drill</td>
-          <td>7 m</td>
-          <td><span class="lov">/6</span></td>
-          <td><input inputmode="numeric" type="number" step="1" class="pts"></td>
-          <td><input inputmode="decimal" type="number" step="0.01" class="time"></td>
-          <td><div class="hf-box"></div></td>
-        </tr>
-        <tr>
-          <td class="c-idx">8.</td>
-          <td>Target transitions</td>
-          <td class="b">3-Target Sweep</td>
-          <td>7 m</td>
-          <td><span class="lov">/6</span></td>
-          <td><input inputmode="numeric" type="number" step="1" class="pts"></td>
-          <td><input inputmode="decimal" type="number" step="0.01" class="time"></td>
-          <td><div class="hf-box"></div></td>
-        </tr>
-        <tr>
-          <td class="c-idx">9.</td>
-          <td>Emergency reloads</td>
-          <td class="b">1R1</td>
-          <td>7 m</td>
-          <td><span class="lov">/2</span></td>
-          <td><input inputmode="numeric" type="number" step="1" class="pts"></td>
-          <td><input inputmode="decimal" type="number" step="0.01" class="time"></td>
-          <td><div class="hf-box"></div></td>
-        </tr>
-        <tr>
-          <td class="c-idx">10.</td>
-          <td>SH control</td>
-          <td class="b">SHO</td>
-          <td>5 m</td>
-          <td><span class="lov">/3</span></td>
-          <td><input inputmode="numeric" type="number" step="1" class="pts"></td>
-          <td><input inputmode="decimal" type="number" step="0.01" class="time"></td>
-          <td><div class="hf-box"></div></td>
-        </tr>
-        <tr>
-          <td class="c-idx">11.</td>
-          <td>WH control</td>
-          <td class="b">WHO</td>
-          <td>5 m</td>
-          <td><span class="lov">/3</span></td>
-          <td><input inputmode="numeric" type="number" step="1" class="pts"></td>
-          <td><input inputmode="decimal" type="number" step="0.01" class="time"></td>
-          <td><div class="hf-box"></div></td>
-        </tr>
-        <tr>
-          <td class="c-idx">12.</td>
-          <td>Distance change-ups</td>
-          <td class="b">Size Change-Up (pe loc)</td>
-          <td>7–10 m</td>
-          <td><span class="lov">/6</span></td>
-          <td><input inputmode="numeric" type="number" step="1" class="pts"></td>
-          <td><input inputmode="decimal" type="number" step="0.01" class="time"></td>
-          <td><div class="hf-box"></div></td>
-        </tr>
-        <tr>
-          <td class="c-idx">13.</td>
-          <td>Throttle control</td>
-          <td class="b">FAST (2 cap → rl → 4 piept)</td>
-          <td>7 m</td>
-          <td><span class="lov">cap: /2<br>piept: /4</span></td>
-          <td><input inputmode="numeric" type="number" step="1" class="pts"></td>
-          <td><input inputmode="decimal" type="number" step="0.01" class="time"></td>
-          <td><div class="hf-box"></div></td>
-        </tr>
+        <tr><td class="c-idx">1.</td><td>Safe gun handling & consistency</td><td><span class="b">Mini Super Test</span> – string 1</td><td class="b">15 m</td><td><span class="lov">/3</span></td><td><input inputmode="numeric" type="number" step="1" class="pts"></td><td><input inputmode="decimal" type="number" step="0.01" class="time"></td><td><div class="hf-box"></div></td></tr>
+        <tr><td class="c-idx">2.</td><td>Safe gun handling & consistency</td><td><span class="b">Mini Super Test</span> – string 2</td><td class="b">10 m</td><td><span class="lov">/3</span></td><td><input inputmode="numeric" type="number" step="1" class="pts"></td><td><input inputmode="decimal" type="number" step="0.01" class="time"></td><td><div class="hf-box"></div></td></tr>
+        <tr><td class="c-idx">3.</td><td>Safe gun handling & consistency</td><td><span class="b">Mini Super Test</span> – string 3</td><td class="b">5 m</td><td><span class="lov">/3</span></td><td><input inputmode="numeric" type="number" step="1" class="pts"></td><td><input inputmode="decimal" type="number" step="0.01" class="time"></td><td><div class="hf-box"></div></td></tr>
+        <tr><td class="c-idx">4.</td><td>Draw to first shot</td><td class="b">Draw-to-1</td><td>7 m</td><td><span class="lov">/1</span></td><td><input inputmode="numeric" type="number" step="1" class="pts"></td><td><input inputmode="decimal" type="number" step="0.01" class="time"></td><td><div class="hf-box"></div></td></tr>
+        <tr><td class="c-idx">5.</td><td>Sight acquisition & cadence</td><td class="b">Doubles</td><td>7 m</td><td><span class="lov">/4</span></td><td><input inputmode="numeric" type="number" step="1" class="pts"></td><td><input inputmode="decimal" type="number" step="0.01" class="time"></td><td><div class="hf-box"></div></td></tr>
+        <tr><td class="c-idx">6.</td><td>Trigger control / precision</td><td class="b">Head shot</td><td>7 m</td><td><span class="lov">/4</span></td><td><input inputmode="numeric" type="number" step="1" class="pts"></td><td><input inputmode="decimal" type="number" step="0.01" class="time"></td><td><div class="hf-box"></div></td></tr>
+        <tr><td class="c-idx">7.</td><td>Grip & recoil (splits)</td><td class="b">Bill Drill</td><td>7 m</td><td><span class="lov">/6</span></td><td><input inputmode="numeric" type="number" step="1" class="pts"></td><td><input inputmode="decimal" type="number" step="0.01" class="time"></td><td><div class="hf-box"></div></td></tr>
+        <tr><td class="c-idx">8.</td><td>Target transitions</td><td class="b">3-Target Sweep</td><td>7 m</td><td><span class="lov">/6</span></td><td><input inputmode="numeric" type="number" step="1" class="pts"></td><td><input inputmode="decimal" type="number" step="0.01" class="time"></td><td><div class="hf-box"></div></td></tr>
+        <tr><td class="c-idx">9.</td><td>Emergency reloads</td><td class="b">1R1</td><td>7 m</td><td><span class="lov">/2</span></td><td><input inputmode="numeric" type="number" step="1" class="pts"></td><td><input inputmode="decimal" type="number" step="0.01" class="time"></td><td><div class="hf-box"></div></td></tr>
+        <tr><td class="c-idx">10.</td><td>SH control</td><td class="b">SHO</td><td>5 m</td><td><span class="lov">/3</span></td><td><input inputmode="numeric" type="number" step="1" class="pts"></td><td><input inputmode="decimal" type="number" step="0.01" class="time"></td><td><div class="hf-box"></div></td></tr>
+        <tr><td class="c-idx">11.</td><td>WH control</td><td class="b">WHO</td><td>5 m</td><td><span class="lov">/3</span></td><td><input inputmode="numeric" type="number" step="1" class="pts"></td><td><input inputmode="decimal" type="number" step="0.01" class="time"></td><td><div class="hf-box"></div></td></tr>
+        <tr><td class="c-idx">12.</td><td>Distance change-ups</td><td class="b">Size Change-Up (pe loc)</td><td>7–10 m</td><td><span class="lov">/6</span></td><td><input inputmode="numeric" type="number" step="1" class="pts"></td><td><input inputmode="decimal" type="number" step="0.01" class="time"></td><td><div class="hf-box"></div></td></tr>
+        <tr><td class="c-idx">13.</td><td>Throttle control</td><td class="b">FAST (2 cap → rl → 4 piept)</td><td>7 m</td><td><span class="lov">cap: /2<br>piept: /4</span></td><td><input inputmode="numeric" type="number" step="1" class="pts"></td><td><input inputmode="decimal" type="number" step="0.01" class="time"></td><td><div class="hf-box"></div></td></tr>
       </tbody>
     </table>
 
@@ -254,10 +163,8 @@
   </div>
 
   <script>
-    // --- Helpers ---
     function fmt(v, d=2){ return (isFinite(v) && v!=='') ? Number(v).toFixed(d) : ''; }
 
-    // calculează HF = Puncte / Timp și salvează starea completă (antet + rânduri)
     function recalcAndSave(){
       const rowsData = [];
       document.querySelectorAll('#sheet tbody tr').forEach(tr=>{
@@ -271,13 +178,11 @@
         rowsData.push({pts: ptsEl.value || '', time: timeEl.value || ''});
       });
 
-      // header
       const header = {
         date: document.getElementById('fld_date').value || '',
         shooter: document.getElementById('fld_shooter').value || '',
         gun: document.getElementById('fld_gun').value || ''
       };
-
       localStorage.setItem('fisa_eval_state_v2', JSON.stringify({header, rows: rowsData}));
     }
 
@@ -295,34 +200,27 @@
           const rows = [...document.querySelectorAll('#sheet tbody tr')];
           obj.rows.forEach((r,i)=>{
             const tr = rows[i]; if(!tr) return;
-            const pts = tr.querySelector('.pts'), time = tr.querySelector('.time');
-            if(pts) pts.value = r.pts || '';
-            if(time) time.value = r.time || '';
+            tr.querySelector('.pts').value = r.pts || '';
+            tr.querySelector('.time').value = r.time || '';
           });
         }
         recalcAndSave();
       }catch(e){ console.error(e) }
     }
 
-    // event binding
-    document.addEventListener('input', function(e){
-      if(e.target.matches('.pts, .time, #fld_date, #fld_shooter, #fld_gun')){
-        recalcAndSave();
-      }
+    document.addEventListener('input', (e)=>{
+      if(e.target.matches('.pts, .time, #fld_date, #fld_shooter, #fld_gun')) recalcAndSave();
     });
 
-    document.getElementById('clear').addEventListener('click', function(){
-      // clear header
+    document.getElementById('clear')?.addEventListener('click', ()=>{
       document.getElementById('fld_date').value = '';
       document.getElementById('fld_shooter').value = '';
       document.getElementById('fld_gun').value = '';
-      // clear rows
       document.querySelectorAll('.pts,.time').forEach(i => i.value = '');
       localStorage.removeItem('fisa_eval_state_v2');
       recalcAndSave();
     });
 
-    // restore on load
     restore();
   </script>
 </body>
