@@ -2,18 +2,18 @@
 <html lang="ro">
 <head>
 <meta charset="utf-8">
-<title>Pistol Baseline skills</title>
+<title>Pistol Skills</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
   :root{--ink:#111;--muted:#555;--grid:#dcdcdc;--shade:#f7f7f7}
   html,body{background:#fff;color:var(--ink);margin:0}
   body{font:16px/1.45 "Times New Roman", Times, serif}
   .wrap{max-width:870px;margin:28px auto 60px;padding:0 12px}
-  h1{margin:0 0 12px;text-align:center;font-size:36px;font-weight:700}
+  h1{margin:0 0 12px;text-align:center;font-size:38px;letter-spacing:.5px;font-weight:700}
 
   .meta{margin:10px 0 8px}
   .meta-row{display:flex;align-items:center;gap:18px;margin:8px 0}
-  .lbl{font-style:italic;min-width:95px}
+  .lbl{font-style:italic;min-width:170px}
   .line-input{
     flex:1;border:0;border-bottom:1px solid #999;padding:6px 6px;
     font:16px/1.2 "Times New Roman", Times, serif;outline:none;background:transparent;
@@ -74,12 +74,19 @@
   .tot{margin-top:10px}
   .foot{margin-top:6px;color:var(--muted)}
 
+  /* footer pentru PDF */
+  .print-footer{display:none}
+
   @page{size:A4;margin:16mm 14mm}
   @media print{
     .wrap{margin:0 auto;padding:0}
     .toolbar, details.core, details.map, details.targets{display:none}
     .line-input{border-bottom:1px solid #000}
     input[type="number"], input[type="text"], input[type="date"]{border:1px solid #999}
+    .print-footer{
+      display:block; position:fixed; bottom:8mm; left:14mm; right:14mm;
+      text-align:right; font-size:12px; color:#000;
+    }
   }
   @media (max-width:520px){
     .wrap{padding:0 10px}
@@ -89,7 +96,7 @@
 </head>
 <body>
   <div class="wrap">
-    <h1>Fișă de evaluare</h1>
+    <h1>Pistol Skills</h1>
 
     <div class="meta">
       <div class="meta-row">
@@ -103,6 +110,10 @@
       <div class="meta-row">
         <div class="lbl">Arma:</div>
         <input id="fld_gun" class="line-input" type="text" placeholder="Model / Calibru" />
+      </div>
+      <div class="meta-row">
+        <div class="lbl">Autor (footer PDF):</div>
+        <input id="fld_author" class="line-input" type="text" placeholder="Numele tău pentru footer" />
       </div>
     </div>
 
@@ -262,8 +273,18 @@
     <div class="foot">Completezi <b>Puncte</b> și <b>Timp</b>. <b>HF</b> se calculează automat. Apoi „Exportă PDF”.</div>
   </div>
 
+  <!-- Footer render-only pentru PDF -->
+  <div class="print-footer" id="printFooter"></div>
+
   <script>
     function fmt(v, d=2){ return (isFinite(v) && v!=='') ? Number(v).toFixed(d) : ''; }
+
+    function updateFooter(){
+      const author = document.getElementById('fld_author').value?.trim() || '';
+      const dateStr = document.getElementById('fld_date').value || '';
+      const footer = document.getElementById('printFooter');
+      footer.textContent = author ? `© ${author}${dateStr ? ' — ' + dateStr : ''}` : (dateStr ? dateStr : '');
+    }
 
     function recalcAndSave(){
       const rowsData = [];
@@ -281,20 +302,23 @@
       const header = {
         date: document.getElementById('fld_date').value || '',
         shooter: document.getElementById('fld_shooter').value || '',
-        gun: document.getElementById('fld_gun').value || ''
+        gun: document.getElementById('fld_gun').value || '',
+        author: document.getElementById('fld_author').value || ''
       };
-      localStorage.setItem('fisa_eval_state_v2', JSON.stringify({header, rows: rowsData}));
+      localStorage.setItem('fisa_eval_state_v3', JSON.stringify({header, rows: rowsData}));
+      updateFooter();
     }
 
     function restore(){
       try{
-        const raw = localStorage.getItem('fisa_eval_state_v2');
+        const raw = localStorage.getItem('fisa_eval_state_v3');
         if(!raw) return;
         const obj = JSON.parse(raw);
         if(obj.header){
           document.getElementById('fld_date').value = obj.header.date || '';
           document.getElementById('fld_shooter').value = obj.header.shooter || '';
           document.getElementById('fld_gun').value = obj.header.gun || '';
+          document.getElementById('fld_author').value = obj.header.author || '';
         }
         if(Array.isArray(obj.rows)){
           const rows = [...document.querySelectorAll('#sheet tbody tr')];
@@ -304,7 +328,8 @@
             tr.querySelector('.time').value = r.time || '';
           });
         }
-        recalcAndSave();
+        updateFooter();
+        document.title = 'Pistol Skills';
       }catch(e){ console.error(e) }
     }
 
@@ -345,15 +370,16 @@
     });
 
     document.addEventListener('input', (e)=>{
-      if(e.target.matches('.pts, .time, #fld_date, #fld_shooter, #fld_gun')) recalcAndSave();
+      if(e.target.matches('.pts, .time, #fld_date, #fld_shooter, #fld_gun, #fld_author')) recalcAndSave();
     });
 
     document.getElementById('clear')?.addEventListener('click', ()=>{
       document.getElementById('fld_date').value = '';
       document.getElementById('fld_shooter').value = '';
       document.getElementById('fld_gun').value = '';
+      document.getElementById('fld_author').value = '';
       document.querySelectorAll('.pts,.time').forEach(i => i.value = '');
-      localStorage.removeItem('fisa_eval_state_v2');
+      localStorage.removeItem('fisa_eval_state_v3');
       recalcAndSave();
     });
   </script>
