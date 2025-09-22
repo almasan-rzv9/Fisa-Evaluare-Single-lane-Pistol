@@ -113,7 +113,7 @@
       </div>
       <div class="meta-row">
         <div class="lbl">Autor (footer PDF):</div>
-        <input id="fld_author" class="line-input" type="text" placeholder="Numele tău pentru footer" />
+        <input id="fld_author" class="line-input" type="text" value="Razvan ALMASAN" placeholder="Numele tău pentru footer" />
       </div>
     </div>
 
@@ -277,10 +277,14 @@
   <div class="print-footer" id="printFooter"></div>
 
   <script>
+    // ==== CONFIG ====
+    const AUTHOR_DEFAULT = "Razvan ALMASAN";  // numele implicit pentru footer
+    const STORAGE_KEY = "fisa_eval_state_v4";
+
     function fmt(v, d=2){ return (isFinite(v) && v!=='') ? Number(v).toFixed(d) : ''; }
 
     function updateFooter(){
-      const author = document.getElementById('fld_author').value?.trim() || '';
+      const author = (document.getElementById('fld_author').value?.trim() || AUTHOR_DEFAULT);
       const dateStr = document.getElementById('fld_date').value || '';
       const footer = document.getElementById('printFooter');
       footer.textContent = author ? `© ${author}${dateStr ? ' — ' + dateStr : ''}` : (dateStr ? dateStr : '');
@@ -303,22 +307,28 @@
         date: document.getElementById('fld_date').value || '',
         shooter: document.getElementById('fld_shooter').value || '',
         gun: document.getElementById('fld_gun').value || '',
-        author: document.getElementById('fld_author').value || ''
+        author: document.getElementById('fld_author').value || AUTHOR_DEFAULT
       };
-      localStorage.setItem('fisa_eval_state_v3', JSON.stringify({header, rows: rowsData}));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({header, rows: rowsData}));
       updateFooter();
     }
 
     function restore(){
       try{
-        const raw = localStorage.getItem('fisa_eval_state_v3');
-        if(!raw) return;
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if(!raw){
+          // init cu valorile implicite
+          document.getElementById('fld_author').value = AUTHOR_DEFAULT;
+          updateFooter();
+          document.title = 'Pistol Skills';
+          return;
+        }
         const obj = JSON.parse(raw);
         if(obj.header){
           document.getElementById('fld_date').value = obj.header.date || '';
           document.getElementById('fld_shooter').value = obj.header.shooter || '';
           document.getElementById('fld_gun').value = obj.header.gun || '';
-          document.getElementById('fld_author').value = obj.header.author || '';
+          document.getElementById('fld_author').value = obj.header.author || AUTHOR_DEFAULT;
         }
         if(Array.isArray(obj.rows)){
           const rows = [...document.querySelectorAll('#sheet tbody tr')];
@@ -364,7 +374,7 @@
 
     // init
     document.addEventListener('DOMContentLoaded', () => {
-      document.querySelectorAll('details.core, details.map, details.targets').forEach(d => d.removeAttribute('open'));
+      document.querySelectorAll('details.core, details.map, details.targets').forEach(d => d.removeAttribute('open')); // toate închise
       restore();
       buildTargets();
     });
@@ -377,9 +387,9 @@
       document.getElementById('fld_date').value = '';
       document.getElementById('fld_shooter').value = '';
       document.getElementById('fld_gun').value = '';
-      document.getElementById('fld_author').value = '';
+      document.getElementById('fld_author').value = AUTHOR_DEFAULT;
       document.querySelectorAll('.pts,.time').forEach(i => i.value = '');
-      localStorage.removeItem('fisa_eval_state_v3');
+      localStorage.removeItem(STORAGE_KEY);
       recalcAndSave();
     });
   </script>
