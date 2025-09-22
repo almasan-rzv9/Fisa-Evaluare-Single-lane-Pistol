@@ -74,19 +74,12 @@
   .tot{margin-top:10px}
   .foot{margin-top:6px;color:var(--muted)}
 
-  /* footer pentru PDF */
-  .print-footer{display:none}
-
   @page{size:A4;margin:16mm 14mm}
   @media print{
     .wrap{margin:0 auto;padding:0}
     .toolbar, details.core, details.map, details.targets{display:none}
     .line-input{border-bottom:1px solid #000}
     input[type="number"], input[type="text"], input[type="date"]{border:1px solid #999}
-    .print-footer{
-      display:block; position:fixed; bottom:8mm; left:14mm; right:14mm;
-      text-align:right; font-size:12px; color:#000;
-    }
   }
   @media (max-width:520px){
     .wrap{padding:0 10px}
@@ -110,10 +103,6 @@
       <div class="meta-row">
         <div class="lbl">Arma:</div>
         <input id="fld_gun" class="line-input" type="text" placeholder="Model / Calibru" />
-      </div>
-      <div class="meta-row">
-        <div class="lbl">Autor (footer PDF):</div>
-        <input id="fld_author" class="line-input" type="text" value="Razvan ALMASAN" placeholder="Numele tău pentru footer" />
       </div>
     </div>
 
@@ -273,22 +262,10 @@
     <div class="foot">Completezi <b>Puncte</b> și <b>Timp</b>. <b>HF</b> se calculează automat. Apoi „Exportă PDF”.</div>
   </div>
 
-  <!-- Footer render-only pentru PDF -->
-  <div class="print-footer" id="printFooter"></div>
-
   <script>
-    // ==== CONFIG ====
-    const AUTHOR_DEFAULT = "Razvan ALMASAN";  // numele implicit pentru footer
-    const STORAGE_KEY = "fisa_eval_state_v4";
+    const STORAGE_KEY = "fisa_eval_state_v5";
 
     function fmt(v, d=2){ return (isFinite(v) && v!=='') ? Number(v).toFixed(d) : ''; }
-
-    function updateFooter(){
-      const author = (document.getElementById('fld_author').value?.trim() || AUTHOR_DEFAULT);
-      const dateStr = document.getElementById('fld_date').value || '';
-      const footer = document.getElementById('printFooter');
-      footer.textContent = author ? `© ${author}${dateStr ? ' — ' + dateStr : ''}` : (dateStr ? dateStr : '');
-    }
 
     function recalcAndSave(){
       const rowsData = [];
@@ -306,29 +283,20 @@
       const header = {
         date: document.getElementById('fld_date').value || '',
         shooter: document.getElementById('fld_shooter').value || '',
-        gun: document.getElementById('fld_gun').value || '',
-        author: document.getElementById('fld_author').value || AUTHOR_DEFAULT
+        gun: document.getElementById('fld_gun').value || ''
       };
       localStorage.setItem(STORAGE_KEY, JSON.stringify({header, rows: rowsData}));
-      updateFooter();
     }
 
     function restore(){
       try{
         const raw = localStorage.getItem(STORAGE_KEY);
-        if(!raw){
-          // init cu valorile implicite
-          document.getElementById('fld_author').value = AUTHOR_DEFAULT;
-          updateFooter();
-          document.title = 'Pistol Skills';
-          return;
-        }
+        if(!raw){ document.title = 'Pistol Skills'; return; }
         const obj = JSON.parse(raw);
         if(obj.header){
           document.getElementById('fld_date').value = obj.header.date || '';
           document.getElementById('fld_shooter').value = obj.header.shooter || '';
           document.getElementById('fld_gun').value = obj.header.gun || '';
-          document.getElementById('fld_author').value = obj.header.author || AUTHOR_DEFAULT;
         }
         if(Array.isArray(obj.rows)){
           const rows = [...document.querySelectorAll('#sheet tbody tr')];
@@ -338,7 +306,6 @@
             tr.querySelector('.time').value = r.time || '';
           });
         }
-        updateFooter();
         document.title = 'Pistol Skills';
       }catch(e){ console.error(e) }
     }
@@ -380,14 +347,13 @@
     });
 
     document.addEventListener('input', (e)=>{
-      if(e.target.matches('.pts, .time, #fld_date, #fld_shooter, #fld_gun, #fld_author')) recalcAndSave();
+      if(e.target.matches('.pts, .time, #fld_date, #fld_shooter, #fld_gun')) recalcAndSave();
     });
 
     document.getElementById('clear')?.addEventListener('click', ()=>{
       document.getElementById('fld_date').value = '';
       document.getElementById('fld_shooter').value = '';
       document.getElementById('fld_gun').value = '';
-      document.getElementById('fld_author').value = AUTHOR_DEFAULT;
       document.querySelectorAll('.pts,.time').forEach(i => i.value = '');
       localStorage.removeItem(STORAGE_KEY);
       recalcAndSave();
